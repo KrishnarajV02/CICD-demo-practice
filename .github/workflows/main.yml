@@ -26,3 +26,13 @@ jobs:
           tags: ${{ vars.DOCKER_USERNAME }}/dummy-image:latest
           context: .
           file: Dockerfile
+
+      - name: Deploy to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "docker-compose.yml" # Adjust if necessary
+          target: "/var/www/cicdproject/" # Adjust to your target path
